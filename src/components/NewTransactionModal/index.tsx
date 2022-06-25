@@ -3,6 +3,7 @@ import ReactModal from "react-modal";
 import closeImage from "../../assets/icon-close.svg";
 import incomeImage from "../../assets/icon-income.svg";
 import outcomeImage from "../../assets/icon-outcome.svg";
+import { api } from "../../services/api";
 import { Container, RadioBox, TransactionTypeContainer } from "./styles";
 
 interface NewTransactionModalProps {
@@ -22,7 +23,7 @@ export const NewTransactionModal: React.FC<NewTransactionModalProps> = ({
   function handleCreateNewTransaction(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    console.log({
+    api.post("/transactions", {
       title,
       value,
       type,
