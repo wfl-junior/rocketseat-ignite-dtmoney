@@ -2,11 +2,30 @@ import incomeImage from "../../assets/icon-income.svg";
 import outcomeImage from "../../assets/icon-outcome.svg";
 import totalImage from "../../assets/icon-total.svg";
 import { useTransactionsContext } from "../../contexts/TransactionsContext";
+import { formatAmount } from "../../utils/formatAmount";
 import { Container } from "./styles";
 
 export const Summary: React.FC = () => {
   const { transactions } = useTransactionsContext();
-  console.log(transactions);
+
+  const summary = transactions.reduce(
+    (summary, transaction) => {
+      if (transaction.type === "deposit") {
+        summary.deposits += transaction.amount;
+        summary.total += transaction.amount;
+      } else {
+        summary.withdraws += transaction.amount;
+        summary.total -= transaction.amount;
+      }
+
+      return summary;
+    },
+    {
+      deposits: 0,
+      withdraws: 0,
+      total: 0,
+    },
+  );
 
   return (
     <Container>
@@ -16,7 +35,7 @@ export const Summary: React.FC = () => {
           <img src={incomeImage} alt="Entradas" />
         </header>
 
-        <strong>R$1000,00</strong>
+        <strong>{formatAmount(summary.deposits)}</strong>
       </div>
 
       <div>
@@ -25,7 +44,7 @@ export const Summary: React.FC = () => {
           <img src={outcomeImage} alt="Saídas" />
         </header>
 
-        <strong>- R$500,00</strong>
+        <strong>- {formatAmount(summary.withdraws)}</strong>
       </div>
 
       <div className="highlight-background">
@@ -34,7 +53,7 @@ export const Summary: React.FC = () => {
           <img src={totalImage} alt="Total" />
         </header>
 
-        <strong>R$500,00</strong>
+        <strong>{formatAmount(summary.total)}</strong>
       </div>
     </Container>
   );
