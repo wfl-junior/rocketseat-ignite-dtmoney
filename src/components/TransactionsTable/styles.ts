@@ -22,7 +22,7 @@ export const Container = styled.div`
     td {
       border: 0;
       background-color: var(--shape);
-      border-radius: 0.25rem;
+      /* border-radius: 0.25rem; */
 
       &:first-child {
         color: var(--text-title);

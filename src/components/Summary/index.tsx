@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import incomeImage from "../../assets/icon-income.svg";
 import outcomeImage from "../../assets/icon-outcome.svg";
 import totalImage from "../../assets/icon-total.svg";
@@ -8,24 +9,26 @@ import { Container } from "./styles";
 export const Summary: React.FC = () => {
   const { transactions } = useTransactionsContext();
 
-  const summary = transactions.reduce(
-    (summary, transaction) => {
-      if (transaction.type === "deposit") {
-        summary.deposits += transaction.amount;
-        summary.total += transaction.amount;
-      } else {
-        summary.withdraws += transaction.amount;
-        summary.total -= transaction.amount;
-      }
+  const summary = useMemo(() => {
+    return transactions.reduce(
+      (summary, transaction) => {
+        if (transaction.type === "deposit") {
+          summary.deposits += transaction.amount;
+          summary.total += transaction.amount;
+        } else {
+          summary.withdraws += transaction.amount;
+          summary.total -= transaction.amount;
+        }
 
-      return summary;
-    },
-    {
-      deposits: 0,
-      withdraws: 0,
-      total: 0,
-    },
-  );
+        return summary;
+      },
+      {
+        deposits: 0,
+        withdraws: 0,
+        total: 0,
+      },
+    );
+  }, [transactions]);
 
   return (
     <Container>

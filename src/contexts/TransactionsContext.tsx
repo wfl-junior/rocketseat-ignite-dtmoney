@@ -17,7 +17,7 @@ interface TransactionsContextData {
   createTransaction: (transaction: TransactionInput) => Promise<void>;
 }
 
-export const TransactionsContext = createContext({} as TransactionsContextData);
+const TransactionsContext = createContext({} as TransactionsContextData);
 
 export const useTransactionsContext = () => useContext(TransactionsContext);
 

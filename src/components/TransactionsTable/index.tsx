@@ -21,9 +21,12 @@ export const TransactionsTable: React.FC = () => {
           {transactions.map(transaction => (
             <tr key={transaction.id}>
               <td>{transaction.title}</td>
+
               <td className={transaction.type}>
+                {transaction.type === "withdraw" ? "- " : null}
                 {formatAmount(transaction.amount)}
               </td>
+
               <td>{transaction.category}</td>
               <td>{new Date(transaction.createdAt).toLocaleDateString()}</td>
             </tr>
