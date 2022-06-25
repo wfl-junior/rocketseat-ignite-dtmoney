@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { api } from "../services/api";
 
 interface Transaction {
-  id: string;
+  id: string | number;
   title: string;
   type: "deposit" | "withdraw";
   category: string;
@@ -10,11 +10,14 @@ interface Transaction {
   createdAt: string;
 }
 
-interface ITransactionsContext {
+type TransactionInput = Omit<Transaction, "id" | "createdAt">;
+
+interface TransactionsContextData {
   transactions: Transaction[];
+  createTransaction: (transaction: TransactionInput) => void;
 }
 
-export const TransactionsContext = createContext({} as ITransactionsContext);
+export const TransactionsContext = createContext({} as TransactionsContextData);
 
 export const useTransactionsContext = () => useContext(TransactionsContext);
 
@@ -33,8 +36,12 @@ export const TransactionsContextProvider: React.FC<
       .then(response => setTransactions(response.data.transactions));
   }, []);
 
+  function createTransaction(transaction: TransactionInput) {
+    api.post("/transactions", transaction);
+  }
+
   return (
-    <TransactionsContext.Provider value={{ transactions }}>
+    <TransactionsContext.Provider value={{ transactions, createTransaction }}>
       {children}
     </TransactionsContext.Provider>
   );

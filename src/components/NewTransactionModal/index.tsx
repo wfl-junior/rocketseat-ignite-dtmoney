@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import closeImage from "../../assets/icon-close.svg";
 import incomeImage from "../../assets/icon-income.svg";
 import outcomeImage from "../../assets/icon-outcome.svg";
-import { api } from "../../services/api";
+import { useTransactionsContext } from "../../contexts/TransactionsContext";
 import { Container, RadioBox, TransactionTypeContainer } from "./styles";
 
 interface NewTransactionModalProps {
@@ -15,17 +15,18 @@ export const NewTransactionModal: React.FC<NewTransactionModalProps> = ({
   isOpen,
   onRequestClose,
 }) => {
+  const { createTransaction } = useTransactionsContext();
   const [title, setTitle] = useState("");
-  const [value, setValue] = useState(0);
+  const [amount, setAmount] = useState(0);
   const [type, setType] = useState<"deposit" | "withdraw">("deposit");
   const [category, setCategory] = useState("");
 
   function handleCreateNewTransaction(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    api.post("/transactions", {
+    createTransaction({
       title,
-      value,
+      amount,
       type,
       category,
     });
@@ -59,10 +60,10 @@ export const NewTransactionModal: React.FC<NewTransactionModalProps> = ({
         <input
           type="number"
           placeholder="Valor"
-          value={value}
+          value={amount}
           onChange={e => {
             const { valueAsNumber } = e.target;
-            setValue(isNaN(valueAsNumber) ? 0 : valueAsNumber);
+            setAmount(isNaN(valueAsNumber) ? 0 : valueAsNumber);
           }}
         />
 
