@@ -1,9 +1,11 @@
+import { Fragment } from "react";
+import { Header } from "./components/Header";
 import { GlobalStyle } from "./styles/global";
 
 export const App: React.FC = () => (
-  <div className="App">
+  <Fragment>
     <GlobalStyle />
 
-    <h1>Hello World</h1>
-  </div>
+    <Header />
+  </Fragment>
 );
