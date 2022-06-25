@@ -1,10 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { api } from "../../services/api";
 import { Container } from "./styles";
 
+interface Transaction {
+  id: string;
+  title: string;
+  type: "deposit" | "withdraw";
+  category: string;
+  amount: number;
+  createdAt: string;
+}
+
 export const TransactionsTable: React.FC = () => {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+
   useEffect(() => {
-    api.get("/transactions").then(response => console.log(response.data));
+    api
+      .get<{ transactions: Transaction[] }>("/transactions")
+      .then(response => setTransactions(response.data.transactions));
   }, []);
 
   return (
@@ -20,18 +33,14 @@ export const TransactionsTable: React.FC = () => {
         </thead>
 
         <tbody>
-          <tr>
-            <td>Desenvolvimento de website</td>
-            <td className="deposit">R$12.000</td>
-            <td>Desenvolvimento</td>
-            <td>20/02/2021</td>
-          </tr>
-          <tr>
-            <td>Aluguel</td>
-            <td className="withdraw">- R$1.100</td>
-            <td>Casa</td>
-            <td>17/02/2021</td>
-          </tr>
+          {transactions.map(transaction => (
+            <tr key={transaction.id}>
+              <td>{transaction.title}</td>
+              <td className={transaction.type}>{transaction.amount}</td>
+              <td>{transaction.category}</td>
+              <td>{new Date(transaction.createdAt).toLocaleString()}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </Container>
