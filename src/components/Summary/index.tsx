@@ -1,13 +1,12 @@
-import { useContext } from "react";
 import incomeImage from "../../assets/icon-income.svg";
 import outcomeImage from "../../assets/icon-outcome.svg";
 import totalImage from "../../assets/icon-total.svg";
-import { TransactionsContext } from "../../contexts/TransactionsContext";
+import { useTransactionsContext } from "../../contexts/TransactionsContext";
 import { Container } from "./styles";
 
 export const Summary: React.FC = () => {
-  const data = useContext(TransactionsContext);
-  console.log(data);
+  const { transactions } = useTransactionsContext();
+  console.log(transactions);
 
   return (
     <Container>
