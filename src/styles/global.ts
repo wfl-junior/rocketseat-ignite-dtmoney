@@ -13,6 +13,9 @@ export const GlobalStyle = createGlobalStyle`
     
     --background: #f0f2f5;
     --shape: #ffffff;
+
+    --border: #d7d7d7;
+    --input-background: #e7e9ee;
   }
 
   *, *::before, *::after {
