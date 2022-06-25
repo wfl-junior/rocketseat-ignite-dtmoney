@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../../services/api";
+import { formatAmount } from "../../utils/formatAmount";
 import { Container } from "./styles";
 
 interface Transaction {
@@ -36,9 +37,11 @@ export const TransactionsTable: React.FC = () => {
           {transactions.map(transaction => (
             <tr key={transaction.id}>
               <td>{transaction.title}</td>
-              <td className={transaction.type}>{transaction.amount}</td>
+              <td className={transaction.type}>
+                {formatAmount(transaction.amount)}
+              </td>
               <td>{transaction.category}</td>
-              <td>{new Date(transaction.createdAt).toLocaleString()}</td>
+              <td>{new Date(transaction.createdAt).toLocaleDateString()}</td>
             </tr>
           ))}
         </tbody>
