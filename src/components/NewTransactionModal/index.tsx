@@ -21,15 +21,21 @@ export const NewTransactionModal: React.FC<NewTransactionModalProps> = ({
   const [type, setType] = useState<"deposit" | "withdraw">("deposit");
   const [category, setCategory] = useState("");
 
-  function handleCreateNewTransaction(e: FormEvent<HTMLFormElement>) {
+  async function handleCreateNewTransaction(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    createTransaction({
+    await createTransaction({
       title,
       amount,
       type,
       category,
     });
+
+    setTitle("");
+    setAmount(0);
+    setCategory("");
+    setType("deposit");
+    onRequestClose();
   }
 
   return (
